@@ -1,0 +1,40 @@
+name: Jabberpoint OTAP Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Fetch the code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up Java environment
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: "maven"
+
+      # 3. Build, Test, and Analyze
+      # This single command runs all the required steps:
+      # - checkstyle:check (runs during 'validate' phase)
+      # - test (compiles and runs unit tests)
+      # - dependency-check:check (runs on 'verify' phase)
+      # - package (builds the JAR file)
+      - name: Build, Test, and Analyze
+        run: mvn verify
+
+      # 4. Upload build artifact
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Jabberpoint-Executable
+          path: target/*.jar
