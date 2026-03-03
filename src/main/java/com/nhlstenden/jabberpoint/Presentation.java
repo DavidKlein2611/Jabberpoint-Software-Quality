@@ -12,20 +12,14 @@ import java.util.ArrayList;
 
 public class Presentation
 {
-    private String showTitle; // de titel van de presentatie
-    private ArrayList<Slide> showList = null; // een ArrayList met de Slides
-    private int currentSlideNumber = 0; // het slidenummer van de huidige Slide
-    private SlideViewerComponent slideViewComponent = null; // de viewcomponent voor de Slides
+
+    private final ArrayList<Observer> observers = new ArrayList<Observer>();
+    private String showTitle;
+    private ArrayList<Slide> showList = null;
+    private int currentSlideNumber = 0;
 
     public Presentation()
     {
-        slideViewComponent = null;
-        clear();
-    }
-
-    public Presentation(SlideViewerComponent slideViewerComponent)
-    {
-        this.slideViewComponent = slideViewerComponent;
         clear();
     }
 
@@ -44,9 +38,14 @@ public class Presentation
         showTitle = nt;
     }
 
-    public void setShowView(SlideViewerComponent slideViewerComponent)
+    public void addObserver(Observer observer)
     {
-        this.slideViewComponent = slideViewerComponent;
+        observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer)
+    {
+        observers.remove(observer);
     }
 
     // geef het nummer van de huidige slide
@@ -55,13 +54,13 @@ public class Presentation
         return currentSlideNumber;
     }
 
-    // verander het huidige-slide-nummer en laat het aan het window weten.
+    // verander het huidige-slide-nummer en laat het aan alle observers weten.
     public void setSlideNumber(int number)
     {
         currentSlideNumber = number;
-        if (slideViewComponent != null)
+        for (Observer observer : observers)
         {
-            slideViewComponent.update(this, getCurrentSlide());
+            observer.update(this, getCurrentSlide());
         }
     }
 

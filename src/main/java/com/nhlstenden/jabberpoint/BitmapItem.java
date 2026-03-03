@@ -19,8 +19,8 @@ public class BitmapItem extends SlideItem
 {
     protected static final String FILE = "Bestand ";
     protected static final String NOTFOUND = " niet gevonden";
-    private BufferedImage bufferedImage;
     private final String imageName;
+    private BufferedImage bufferedImage;
 
     // level staat voor het item-level; name voor de naam van het bestand met de afbeelding
     public BitmapItem(int level, String name)
