@@ -2,11 +2,12 @@ package com.nhlstenden.jabberpoint;
 
 public class NextSlideCommand implements Command
 {
-    private final Presentation presentation;
 
-    public NextSlideCommand(Presentation p)
+    private final PresentationReceiver presentation;
+
+    public NextSlideCommand(PresentationReceiver presentation)
     {
-        this.presentation = p;
+        this.presentation = presentation;
     }
 
     @Override

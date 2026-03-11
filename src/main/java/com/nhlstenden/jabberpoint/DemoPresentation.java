@@ -10,7 +10,7 @@ package com.nhlstenden.jabberpoint;
 class DemoPresentation extends Accessor
 {
 
-    public void loadFile(Presentation presentation, String unusedFilename)
+    public void loadFile(AccessorReceiver presentation, String unusedFilename)
     {
         presentation.setTitle("Demo Presentation");
         Slide slide;
@@ -49,7 +49,7 @@ class DemoPresentation extends Accessor
         presentation.append(slide);
     }
 
-    public void saveFile(Presentation presentation, String unusedFilename)
+    public void saveFile(AccessorReceiver presentation, String unusedFilename)
     {
         throw new IllegalStateException("Save As->Demo! aangeroepen");
     }

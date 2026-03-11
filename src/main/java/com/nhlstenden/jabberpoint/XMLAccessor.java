@@ -53,15 +53,19 @@ public class XMLAccessor extends Accessor
     {
         NodeList titles = element.getElementsByTagName(tagName);
         return titles.item(0).getTextContent();
-
     }
 
-    public void loadFile(Presentation presentation, String filename) throws IOException
+    public void loadFile(AccessorReceiver presentation, String filename)
+            throws IOException
     {
-        int slideNumber, itemNumber, max = 0, maxItems = 0;
+        int slideNumber,
+                itemNumber,
+                max = 0,
+                maxItems = 0;
         try
         {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilder builder =
+                    DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = builder.parse(new File(filename)); // maak een JDOM document
             Element doc = document.getDocumentElement();
             presentation.setTitle(getTitle(doc, SHOWTITLE));
@@ -132,7 +136,8 @@ public class XMLAccessor extends Accessor
         }
     }
 
-    public void saveFile(Presentation presentation, String filename) throws IOException
+    public void saveFile(AccessorReceiver presentation, String filename)
+            throws IOException
     {
         PrintWriter out = new PrintWriter(new FileWriter(filename));
         out.println("<?xml version=\"1.0\"?>");
@@ -141,26 +146,36 @@ public class XMLAccessor extends Accessor
         out.print("<showtitle>");
         out.print(presentation.getTitle());
         out.println("</showtitle>");
-        for (int slideNumber = 0; slideNumber < presentation.getSize(); slideNumber++)
+        for (int slideNumber = 0;
+                slideNumber < presentation.getSize();
+                slideNumber++
+        )
         {
             Slide slide = presentation.getSlide(slideNumber);
             out.println("<slide>");
             out.println("<title>" + slide.getTitle() + "</title>");
             Vector<SlideItem> slideItems = slide.getSlideItems();
-            for (int itemNumber = 0; itemNumber < slideItems.size(); itemNumber++)
+            for (int itemNumber = 0;
+                    itemNumber < slideItems.size();
+                    itemNumber++
+            )
             {
                 SlideItem slideItem = slideItems.elementAt(itemNumber);
                 out.print("<item kind=");
                 if (slideItem instanceof TextItem)
                 {
-                    out.print("\"text\" level=\"" + slideItem.getLevel() + "\">");
+                    out.print(
+                            "\"text\" level=\"" + slideItem.getLevel() + "\">"
+                    );
                     out.print(((TextItem) slideItem).getText());
                 }
                 else
                 {
                     if (slideItem instanceof BitmapItem)
                     {
-                        out.print("\"image\" level=\"" + slideItem.getLevel() + "\">");
+                        out.print(
+                                "\"image\" level=\"" + slideItem.getLevel() + "\">"
+                        );
                         out.print(((BitmapItem) slideItem).getName());
                     }
                     else

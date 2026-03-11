@@ -1,34 +1,43 @@
 package com.nhlstenden.jabberpoint;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 public class OpenCommand implements Command
 {
-    private final Presentation presentation;
-    private final Frame parent;
 
-    public OpenCommand(Presentation p, Frame parent)
+    private final AccessorReceiver accessorReceiver;
+    private final PresentationReceiver presentationReceiver;
+    private final NavigationReceiver parent;
+
+    public OpenCommand(
+            AccessorReceiver accessorReceiver,
+            NavigationReceiver parent
+    )
     {
-        this.presentation = p;
+        this.accessorReceiver = accessorReceiver;
+        this.presentationReceiver = (PresentationReceiver) accessorReceiver;
         this.parent = parent;
     }
 
     @Override
     public void execute()
     {
-        presentation.clear();
+        presentationReceiver.clear();
         Accessor xmlAccessor = new XMLAccessor();
         try
         {
-            xmlAccessor.loadFile(presentation, MenuController.TESTFILE);
-            presentation.setSlideNumber(0);
+            xmlAccessor.loadFile(accessorReceiver, MenuController.TESTFILE);
+            presentationReceiver.setSlideNumber(0);
         }
         catch (IOException exc)
         {
-            JOptionPane.showMessageDialog(parent, MenuController.IOEX + exc,
-                    MenuController.LOADERR, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    MenuController.IOEX + exc,
+                    MenuController.LOADERR,
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
         parent.repaint();
     }

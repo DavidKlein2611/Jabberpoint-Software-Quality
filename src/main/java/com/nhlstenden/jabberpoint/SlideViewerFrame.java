@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class SlideViewerFrame extends JFrame
+public class SlideViewerFrame extends JFrame implements NavigationReceiver
 {
 
     public static final int WIDTH = 1200;

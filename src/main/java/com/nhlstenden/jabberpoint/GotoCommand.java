@@ -4,17 +4,20 @@ import javax.swing.*;
 
 public class GotoCommand implements Command
 {
-    private final Presentation presentation;
 
-    public GotoCommand(Presentation p)
+    private final PresentationReceiver presentation;
+
+    public GotoCommand(PresentationReceiver presentation)
     {
-        this.presentation = p;
+        this.presentation = presentation;
     }
 
     @Override
     public void execute()
     {
-        String pageNumberStr = JOptionPane.showInputDialog(MenuController.PAGENR);
+        String pageNumberStr = JOptionPane.showInputDialog(
+                MenuController.PAGENR
+        );
         try
         {
             int pageNumber = Integer.parseInt(pageNumberStr);

@@ -1,17 +1,20 @@
 package com.nhlstenden.jabberpoint;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 public class SaveCommand implements Command
 {
-    private final Presentation presentation;
-    private final Frame parent;
 
-    public SaveCommand(Presentation p, Frame parent)
+    private final AccessorReceiver presentation;
+    private final NavigationReceiver parent;
+
+    public SaveCommand(
+            AccessorReceiver presentation,
+            NavigationReceiver parent
+    )
     {
-        this.presentation = p;
+        this.presentation = presentation;
         this.parent = parent;
     }
 
@@ -25,8 +28,12 @@ public class SaveCommand implements Command
         }
         catch (IOException exc)
         {
-            JOptionPane.showMessageDialog(parent, MenuController.IOEX + exc,
-                    MenuController.SAVEERR, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    MenuController.IOEX + exc,
+                    MenuController.SAVEERR,
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 }
