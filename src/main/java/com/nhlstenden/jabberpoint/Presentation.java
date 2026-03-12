@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class Presentation implements PresentationReceiver, AccessorReceiver
+public class Presentation
 {
 
     private final ArrayList<Observer> observers = new ArrayList<Observer>();
@@ -83,7 +83,7 @@ public class Presentation implements PresentationReceiver, AccessorReceiver
     }
 
     // Verwijder de presentatie, om klaar te zijn voor de volgende
-    public void clear()
+    void clear()
     {
         showList = new ArrayList<Slide>();
         setSlideNumber(-1);

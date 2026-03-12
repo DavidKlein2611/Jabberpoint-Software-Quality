@@ -1,17 +1,15 @@
 package com.nhlstenden.jabberpoint;
 
+import java.awt.*;
+
 public class NewCommand implements Command
 {
+    private final Presentation presentation;
+    private final Frame parent;
 
-    private final PresentationReceiver presentation;
-    private final NavigationReceiver parent;
-
-    public NewCommand(
-            PresentationReceiver presentation,
-            NavigationReceiver parent
-    )
+    public NewCommand(Presentation p, Frame parent)
     {
-        this.presentation = presentation;
+        this.presentation = p;
         this.parent = parent;
     }
 

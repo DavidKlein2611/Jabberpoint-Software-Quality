@@ -30,20 +30,13 @@ public class MenuController extends MenuBar
     public static final String SAVEERR = "Save Error";
     private static final long serialVersionUID = 227L;
 
-    public MenuController(Frame frame, PresentationReceiver pres)
+    public MenuController(Frame frame, Presentation pres)
     {
         MenuItem menuItem;
-        NavigationReceiver navigationReceiver = (NavigationReceiver) frame;
 
-        Command openCommand = new OpenCommand(
-                (AccessorReceiver) pres,
-                navigationReceiver
-        );
-        Command newCommand = new NewCommand(pres, navigationReceiver);
-        Command saveCommand = new SaveCommand(
-                (AccessorReceiver) pres,
-                navigationReceiver
-        );
+        Command openCommand = new OpenCommand(pres, frame);
+        Command newCommand = new NewCommand(pres, frame);
+        Command saveCommand = new SaveCommand(pres, frame);
         Command exitCommand = new ExitCommand(pres);
         Command nextSlideCommand = new NextSlideCommand(pres);
         Command prevSlideCommand = new PrevSlideCommand(pres);

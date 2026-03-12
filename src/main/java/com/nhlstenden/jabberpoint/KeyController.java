@@ -17,11 +17,11 @@ public class KeyController extends KeyAdapter
     private final Command prevSlideCommand;
     private final Command exitCommand;
 
-    public KeyController(PresentationReceiver presentation)
+    public KeyController(Presentation p)
     {
-        nextSlideCommand = new NextSlideCommand(presentation);
-        prevSlideCommand = new PrevSlideCommand(presentation);
-        exitCommand = new ExitCommand(presentation);
+        nextSlideCommand = new NextSlideCommand(p);
+        prevSlideCommand = new PrevSlideCommand(p);
+        exitCommand = new ExitCommand(p);
     }
 
     public void keyPressed(KeyEvent keyEvent)

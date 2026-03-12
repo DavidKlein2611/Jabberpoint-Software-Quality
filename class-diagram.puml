@@ -1,307 +1,365 @@
-@startuml
-class JabberPoint {
-  {static} #IOERR : String
-  {static} #JABERR : String
-  {static} #JABVERSION : String
-  {static} +main(argv:String) : void
+@startuml JabberPoint Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+package "com.nhlstenden.jabberpoint" {
+
+    class JabberPoint {
+        #{static} IOERR : String
+        #{static} JABERR : String
+        #{static} JABVERSION : String
+        +{static} main(argv : String[]) : void
+    }
+
+    ' ===== FACTORY METHOD PATTERN =====
+    ' Accessor is the Creator — getAccessor() is the factory method.
+    ' DemoPresentation and XMLAccessor are the ConcreteProducts.
+    abstract class Accessor <<Creator>> {
+        +{static} DEMO_NAME : String
+        +{static} DEFAULT_EXTENSION : String
+        +Accessor()
+        +{static} getAccessor(filename : String) : Accessor
+        +{static} getDemoAccessor() : Accessor
+        +{abstract} loadFile(p : Presentation, fn : String) : void
+        +{abstract} saveFile(p : Presentation, fn : String) : void
+    }
+
+    class DemoPresentation <<ConcreteProduct>> {
+        +loadFile(presentation : Presentation, unusedFilename : String) : void
+        +saveFile(presentation : Presentation, unusedFilename : String) : void
+    }
+
+    class XMLAccessor <<ConcreteProduct>> {
+        #{static} DEFAULT_API_TO_USE : String
+        #{static} SHOWTITLE : String
+        #{static} SLIDETITLE : String
+        #{static} SLIDE : String
+        #{static} ITEM : String
+        #{static} LEVEL : String
+        #{static} KIND : String
+        #{static} TEXT : String
+        #{static} IMAGE : String
+        #{static} PCE : String
+        #{static} UNKNOWNTYPE : String
+        #{static} NFE : String
+        -getTitle(element : Element, tagName : String) : String
+        +loadFile(presentation : Presentation, filename : String) : void
+        #loadSlideItem(slide : Slide, item : Element) : void
+        +saveFile(presentation : Presentation, filename : String) : void
+    }
+
+    ' ===== OBSERVER PATTERN =====
+    ' Presentation is the Subject. SlideViewerComponent is the ConcreteObserver.
+    interface Observer <<Observer>> {
+        +update(presentation : Presentation, data : Slide) : void
+    }
+
+    class Presentation <<Subject>> {
+        -showTitle : String
+        -showList : ArrayList<Slide>
+        -currentSlideNumber : int
+        -observers : ArrayList<Observer>
+        +Presentation()
+        +getSize() : int
+        +getTitle() : String
+        +setTitle(nt : String) : void
+        +addObserver(observer : Observer) : void
+        +removeObserver(observer : Observer) : void
+        +getSlideNumber() : int
+        +setSlideNumber(number : int) : void
+        +prevSlide() : void
+        +nextSlide() : void
+        ~clear() : void
+        +append(slide : Slide) : void
+        +getSlide(number : int) : Slide
+        +getCurrentSlide() : Slide
+        +exit(n : int) : void
+    }
+
+    class SlideViewerComponent <<ConcreteObserver>> {
+        -{static} serialVersionUID : long
+        -{static} BGCOLOR : Color
+        -{static} COLOR : Color
+        -{static} FONTNAME : String
+        -{static} FONTSTYLE : int
+        -{static} FONTHEIGHT : int
+        -{static} XPOS : int
+        -{static} YPOS : int
+        -slide : Slide
+        -labelFont : Font
+        -presentation : Presentation
+        -frame : JFrame
+        +SlideViewerComponent(pres : Presentation, frame : JFrame)
+        +getPreferredSize() : Dimension
+        +update(presentation : Presentation, data : Slide) : void
+        +paintComponent(g : Graphics) : void
+    }
+
+    ' ===== COMMAND PATTERN =====
+    ' KeyController and MenuController are the Invokers.
+    ' Presentation is the Receiver.
+    interface Command <<Command>> {
+        +execute() : void
+    }
+
+    class NextSlideCommand <<ConcreteCommand>> {
+        -presentation : Presentation
+        +NextSlideCommand(p : Presentation)
+        +execute() : void
+    }
+
+    class PrevSlideCommand <<ConcreteCommand>> {
+        -presentation : Presentation
+        +PrevSlideCommand(p : Presentation)
+        +execute() : void
+    }
+
+    class ExitCommand <<ConcreteCommand>> {
+        -presentation : Presentation
+        +ExitCommand(p : Presentation)
+        +execute() : void
+    }
+
+    class GotoCommand <<ConcreteCommand>> {
+        -presentation : Presentation
+        +GotoCommand(p : Presentation)
+        +execute() : void
+    }
+
+    class OpenCommand <<ConcreteCommand>> {
+        -presentation : Presentation
+        -parent : Frame
+        +OpenCommand(p : Presentation, parent : Frame)
+        +execute() : void
+    }
+
+    class NewCommand <<ConcreteCommand>> {
+        -presentation : Presentation
+        -parent : Frame
+        +NewCommand(p : Presentation, parent : Frame)
+        +execute() : void
+    }
+
+    class SaveCommand <<ConcreteCommand>> {
+        -presentation : Presentation
+        -parent : Frame
+        +SaveCommand(p : Presentation, parent : Frame)
+        +execute() : void
+    }
+
+    class AboutCommand <<ConcreteCommand>> {
+        -parent : Frame
+        +AboutCommand(parent : Frame)
+        +execute() : void
+    }
+
+    class KeyController <<Invoker>> {
+        -nextSlideCommand : Command
+        -prevSlideCommand : Command
+        -exitCommand : Command
+        +KeyController(p : Presentation)
+        +keyPressed(keyEvent : KeyEvent) : void
+    }
+
+    class MenuController <<Invoker>> {
+        +{static} ABOUT : String
+        +{static} FILE : String
+        +{static} EXIT : String
+        +{static} GOTO : String
+        +{static} HELP : String
+        +{static} NEW : String
+        +{static} NEXT : String
+        +{static} OPEN : String
+        +{static} PAGENR : String
+        +{static} PREV : String
+        +{static} SAVE : String
+        +{static} VIEW : String
+        +{static} TESTFILE : String
+        +{static} SAVEFILE : String
+        +{static} IOEX : String
+        +{static} LOADERR : String
+        +{static} SAVEERR : String
+        -{static} serialVersionUID : long
+        +MenuController(frame : Frame, pres : Presentation)
+        +mkMenuItem(name : String) : MenuItem
+    }
+
+    ' ===== OTHER CLASSES =====
+    class Slide {
+        +{static} WIDTH : int
+        +{static} HEIGHT : int
+        #title : String
+        #items : Vector<SlideItem>
+        +Slide()
+        +append(anItem : SlideItem) : void
+        +getTitle() : String
+        +setTitle(newTitle : String) : void
+        +append(level : int, message : String) : void
+        +getSlideItem(number : int) : SlideItem
+        +getSlideItems() : Vector<SlideItem>
+        +getSize() : int
+        +draw(g : Graphics, area : Rectangle, view : ImageObserver) : void
+        -getScale(area : Rectangle) : float
+    }
+
+    abstract class SlideItem {
+        -level : int
+        +SlideItem(lev : int)
+        +SlideItem()
+        +getLevel() : int
+        +{abstract} getBoundingBox(g : Graphics, observer : ImageObserver, scale : float, style : Style) : Rectangle
+        +{abstract} draw(x : int, y : int, scale : float, g : Graphics, style : Style, observer : ImageObserver) : void
+    }
+
+    class TextItem {
+        -{static} EMPTYTEXT : String
+        -text : String
+        +TextItem(level : int, string : String)
+        +TextItem()
+        +getText() : String
+        +getAttributedString(style : Style, scale : float) : AttributedString
+        +getBoundingBox(g : Graphics, observer : ImageObserver, scale : float, myStyle : Style) : Rectangle
+        +draw(x : int, y : int, scale : float, g : Graphics, myStyle : Style, o : ImageObserver) : void
+        -getLayouts(g : Graphics, s : Style, scale : float) : List<TextLayout>
+        +toString() : String
+    }
+
+    class BitmapItem {
+        #{static} FILE : String
+        #{static} NOTFOUND : String
+        -bufferedImage : BufferedImage
+        -imageName : String
+        +BitmapItem(level : int, name : String)
+        +BitmapItem()
+        +getName() : String
+        +getBoundingBox(g : Graphics, observer : ImageObserver, scale : float, myStyle : Style) : Rectangle
+        +draw(x : int, y : int, scale : float, g : Graphics, myStyle : Style, observer : ImageObserver) : void
+        +toString() : String
+    }
+
+    class Style {
+        -{static} FONTNAME : String
+        -{static} styles : Style[]
+        ~indent : int
+        ~color : Color
+        ~font : Font
+        ~fontSize : int
+        ~leading : int
+        +Style(indent : int, color : Color, points : int, leading : int)
+        +{static} createStyles() : void
+        +{static} getStyle(level : int) : Style
+        +toString() : String
+        +getFont(scale : float) : Font
+    }
+
+    class SlideViewerFrame {
+        +{static} WIDTH : int
+        +{static} HEIGHT : int
+        -{static} serialVersionUID : long
+        -{static} JABTITLE : String
+        +SlideViewerFrame(title : String, presentation : Presentation)
+        +setupWindow(slideViewerComponent : SlideViewerComponent, presentation : Presentation) : void
+    }
+
+    class AboutBox {
+        +{static} show(parent : Frame) : void
+    }
+
+    ' ===== Inheritance =====
+    Accessor <|-- DemoPresentation
+    Accessor <|-- XMLAccessor
+    SlideItem <|-- TextItem
+    SlideItem <|-- BitmapItem
+
+    ' ===== Observer Pattern relationships =====
+    Observer <|.. SlideViewerComponent : <<implements>>
+    Presentation "1" o-- "0..*" Observer : observers
+    Presentation ..> Observer : <<notifies>>
+    SlideViewerFrame ..> Observer : <<registers>>
+
+    ' ===== Factory Method Pattern relationships =====
+    Accessor ..> DemoPresentation : <<creates>>
+    Accessor ..> XMLAccessor : <<creates>>
+
+    ' ===== Command Pattern relationships =====
+    Command <|.. NextSlideCommand : <<implements>>
+    Command <|.. PrevSlideCommand : <<implements>>
+    Command <|.. ExitCommand : <<implements>>
+    Command <|.. GotoCommand : <<implements>>
+    Command <|.. OpenCommand : <<implements>>
+    Command <|.. NewCommand : <<implements>>
+    Command <|.. SaveCommand : <<implements>>
+    Command <|.. AboutCommand : <<implements>>
+
+    KeyController "1" o-- "1" Command : nextSlideCommand
+    KeyController "1" o-- "1" Command : prevSlideCommand
+    KeyController "1" o-- "1" Command : exitCommand
+    MenuController ..> Command : <<invokes>>
+
+    NextSlideCommand --> "1" Presentation : receiver
+    PrevSlideCommand --> "1" Presentation : receiver
+    ExitCommand --> "1" Presentation : receiver
+    GotoCommand --> "1" Presentation : receiver
+    OpenCommand --> "1" Presentation : receiver
+    NewCommand --> "1" Presentation : receiver
+    SaveCommand --> "1" Presentation : receiver
+
+    OpenCommand ..> XMLAccessor : <<uses>>
+    SaveCommand ..> XMLAccessor : <<uses>>
+    AboutCommand --> "1" Frame : parent
+    AboutCommand ..> AboutBox : <<uses>>
+
+    ' ===== Extends external classes =====
+    javax.swing.JFrame <|-- SlideViewerFrame
+    javax.swing.JComponent <|-- SlideViewerComponent
+    java.awt.event.KeyAdapter <|-- KeyController
+    java.awt.MenuBar <|-- MenuController
+
+    ' ===== Composition / Aggregation =====
+    Presentation "1" o-- "0..*" Slide : showList
+    Slide "1" o-- "0..*" SlideItem : items
+
+    ' ===== Associations =====
+    SlideViewerComponent --> "1" Presentation : presentation
+    SlideViewerComponent --> "0..1" Slide : slide
+
+    SlideViewerFrame ..> SlideViewerComponent : <<creates>>
+    SlideViewerFrame ..> KeyController : <<creates>>
+    SlideViewerFrame ..> MenuController : <<creates>>
+
+    Slide ..> Style : <<uses>>
+    Slide ..> TextItem : <<creates>>
+    TextItem ..> Style : <<uses>>
+    BitmapItem ..> Style : <<uses>>
+
+    JabberPoint ..> Presentation : <<creates>>
+    JabberPoint ..> SlideViewerFrame : <<creates>>
+    JabberPoint ..> Accessor : <<uses>>
+    JabberPoint ..> Style : <<uses>>
+
+    DemoPresentation ..> Slide : <<creates>>
+    DemoPresentation ..> TextItem : <<creates>>
+    DemoPresentation ..> BitmapItem : <<creates>>
+
+    XMLAccessor ..> Slide : <<creates>>
+    XMLAccessor ..> TextItem : <<creates>>
+    XMLAccessor ..> BitmapItem : <<creates>>
 }
-abstract Accessor <<Creator>>{
-  {static} +DEMO_NAME : String
-  {static} +DEFAULT_EXTENSION : String
-  +Accessor() : void
-  {static} +getAccessor(filename:String) : Accessor
-  {static} +getDemoAccessor() : Accessor
-  {abstract} +loadFile(p:Presentation, fn:String) : void
-  {abstract} +saveFile(p:Presentation, fn:String) : void
+
+' ===== External classes (simplified) =====
+package "javax.swing" {
+    class JFrame
+    class JComponent
 }
-class DemoPresentation <<ConcreteProduct>>{
-  +loadFile(presentation:Presentation, unusedFilename:String) : void
-  +saveFile(presentation:Presentation, unusedFilename:String) : void
+
+package "java.awt" {
+    class MenuBar
+    class Frame
 }
-class XMLAccessor <<ConcreteProduct>>{
-  {static} #DEFAULT_API_TO_USE : String
-  {static} #SHOWTITLE : String
-  {static} #SLIDETITLE : String
-  {static} #SLIDE : String
-  {static} #ITEM : String
-  {static} #LEVEL : String
-  {static} #KIND : String
-  {static} #TEXT : String
-  {static} #IMAGE : String
-  {static} #PCE : String
-  {static} #UNKNOWNTYPE : String
-  {static} #NFE : String
-  -getTitle(element:Element, tagName:String) : String
-  +loadFile(presentation:Presentation, filename:String) : void
-  #loadSlideItem(slide:Slide, item:Element) : void
-  +saveFile(presentation:Presentation, filename:String) : void
+
+package "java.awt.event" {
+    class KeyAdapter
 }
-interface Observer {
-  {abstract} +update(presentation:Presentation, data:Slide) : void
-}
-interface PresentationReceiver {
-  {abstract} +nextSlide() : void
-  {abstract} +prevSlide() : void
-  {abstract} +setSlideNumber(number:int) : void
-  {abstract} +clear() : void
-  {abstract} +exit(status:int) : void
-}
-interface NavigationReceiver {
-  {abstract} +repaint() : void
-}
-interface AccessorReceiver {
-  {abstract} +setTitle(title:String) : void
-  {abstract} +append(slide:Slide) : void
-  {abstract} +getTitle() : String
-  {abstract} +getSize() : int
-  {abstract} +getSlide(number:int) : Slide
-}
-class Presentation <<Subject>>{
-  -showTitle : String
-  -showList :
-  -currentSlideNumber : int
-  -observers :
-  +Presentation() : void
-  +addObserver(observer:Observer) : void
-  +removeObserver(observer:Observer) : void
-  +getCurrentSlide() : Slide
-}
-class SlideViewerComponent <<ConcreteObserver>>{
-  {static} -serialVersionUID : long
-  -slide : Slide
-  -presentation : Presentation
-  -frame : JFrame
-  -slideRenderer : SlideRenderer
-  +SlideViewerComponent(pres:Presentation, frame:JFrame) : void
-  +getPreferredSize() : Dimension
-  +update(presentation:Presentation, data:Slide) : void
-  +paintComponent(g:Graphics) : void
-}
-class SlideRenderer {
-  {static} -BGCOLOR : Color
-  {static} -LABEL_COLOR : Color
-  {static} -FONTNAME : String
-  {static} -FONTSTYLE : int
-  {static} -FONTHEIGHT : int
-  {static} -SLIDE_COUNTER_X : int
-  {static} -SLIDE_COUNTER_Y : int
-  -labelFont : Font
-  +SlideRenderer() : void
-  +render(g:Graphics, presentation:Presentation, slide:Slide, size:Dimension, observer:ImageObserver) : void
-  -drawBackground(g:Graphics, size:Dimension) : void
-  -drawSlideCounter(g:Graphics, presentation:Presentation) : void
-  -drawSlide(g:Graphics, slide:Slide, size:Dimension, observer:ImageObserver) : void
-}
-interface Command {
-  {abstract} +execute() : void
-}
-class NextSlideCommand <<ConcreteCommand>>{
-  -presentation : PresentationReceiver
-  +NextSlideCommand(presentation:PresentationReceiver) : void
-}
-class PrevSlideCommand <<ConcreteCommand>>{
-  -presentation : PresentationReceiver
-  +PrevSlideCommand(presentation:PresentationReceiver) : void
-}
-class ExitCommand <<ConcreteCommand>>{
-  -presentation : PresentationReceiver
-  +ExitCommand(presentation:PresentationReceiver) : void
-}
-class GotoCommand <<ConcreteCommand>>{
-  -presentation : PresentationReceiver
-  +GotoCommand(presentation:PresentationReceiver) : void
-}
-class OpenCommand <<ConcreteCommand>>{
-  -accessorReceiver : AccessorReceiver
-  -presentationReceiver : PresentationReceiver
-  -parent : NavigationReceiver
-  +OpenCommand(accessorReceiver:AccessorReceiver, parent:NavigationReceiver) : void
-}
-class NewCommand <<ConcreteCommand>>{
-  -presentation : PresentationReceiver
-  -parent : NavigationReceiver
-  +NewCommand(presentation:PresentationReceiver, parent:NavigationReceiver) : void
-}
-class SaveCommand <<ConcreteCommand>>{
-  -presentation : AccessorReceiver
-  -parent : NavigationReceiver
-  +SaveCommand(presentation:AccessorReceiver, parent:NavigationReceiver) : void
-}
-class AboutCommand <<ConcreteCommand>>{
-  -parent : Frame
-  +AboutCommand(parent:Frame) : void
-}
-class KeyController <<Invoker>>{
-  -nextSlideCommand : Command
-  -prevSlideCommand : Command
-  -exitCommand : Command
-  +KeyController(presentation:PresentationReceiver) : void
-  +keyPressed(keyEvent:KeyEvent) : void
-}
-class MenuController <<Invoker>>{
-  {static} +ABOUT : String
-  {static} +FILE : String
-  {static} +EXIT : String
-  {static} +GOTO : String
-  {static} +HELP : String
-  {static} +NEW : String
-  {static} +NEXT : String
-  {static} +OPEN : String
-  {static} +PAGENR : String
-  {static} +PREV : String
-  {static} +SAVE : String
-  {static} +VIEW : String
-  {static} +TESTFILE : String
-  {static} +SAVEFILE : String
-  {static} +IOEX : String
-  {static} +LOADERR : String
-  {static} +SAVEERR : String
-  {static} -serialVersionUID : long
-  +MenuController(frame:Frame, pres:PresentationReceiver) : void
-  +mkMenuItem(name:String) : MenuItem
-}
-class Slide {
-  {static} +WIDTH : int
-  {static} +HEIGHT : int
-  #title : String
-  #items :
-  +Slide() : void
-  +append(anItem:SlideItem) : void
-  +getTitle() : String
-  +setTitle(newTitle:String) : void
-  +append(level:int, message:String) : void
-  +getSlideItem(number:int) : SlideItem
-  +getSlideItems() :
-  +getSize() : int
-  +draw(g:Graphics, area:Rectangle, view:ImageObserver) : void
-  -getScale(area:Rectangle) : float
-}
-abstract SlideItem {
-  -level : int
-  +SlideItem(lev:int) : void
-  +SlideItem() : void
-  +getLevel() : int
-  {abstract} +getBoundingBox(g:Graphics, observer:ImageObserver, scale:float, style:Style) : Rectangle
-  {abstract} +draw(x:int, y:int, scale:float, g:Graphics, style:Style, observer:ImageObserver) : void
-}
-class TextItem {
-  {static} -EMPTYTEXT : String
-  -text : String
-  +TextItem(level:int, string:String) : void
-  +TextItem() : void
-  +getText() : String
-  +getAttributedString(style:Style, scale:float) : AttributedString
-  -getLayouts(g:Graphics, s:Style, scale:float) :
-  +toString() : String
-}
-class BitmapItem {
-  {static} #FILE : String
-  {static} #NOTFOUND : String
-  -bufferedImage : BufferedImage
-  -imageName : String
-  +BitmapItem(level:int, name:String) : void
-  +BitmapItem() : void
-  +getName() : String
-  +toString() : String
-}
-class Style {
-  {static} -FONTNAME : String
-  {static} -styles : Style
-  ~indent : int
-  ~color : Color
-  ~font : Font
-  ~fontSize : int
-  ~leading : int
-  +Style(indent:int, color:Color, points:int, leading:int) : void
-  {static} +createStyles() : void
-  {static} +getStyle(level:int) : Style
-  +toString() : String
-  +getFont(scale:float) : Font
-}
-class SlideViewerFrame <<ConcreteReceiver>>{
-  {static} +WIDTH : int
-  {static} +HEIGHT : int
-  {static} -serialVersionUID : long
-  {static} -JABTITLE : String
-  +SlideViewerFrame(title:String, presentation:Presentation) : void
-  +setupWindow(slideViewerComponent:SlideViewerComponent, presentation:Presentation) : void
-}
-class AboutBox {
-  {static} +show(parent:Frame) : void
-}
-class Frame
-class JFrame
-class JComponent
-class KeyAdapter
-class MenuBar
-Accessor <|-- DemoPresentation
-Accessor <|-- XMLAccessor
-SlideItem <|-- TextItem
-SlideItem <|-- BitmapItem
-SlideViewerComponent ..|> Observer : «implements»
-Presentation "1" o-- "0..*" Observer
-Presentation ..> Observer : «notifies»
-SlideViewerFrame ..> Observer : «registers»
-Accessor ..> DemoPresentation : «creates»
-Accessor ..> XMLAccessor : «creates»
-Presentation ..|> PresentationReceiver : «implements»
-Presentation ..|> AccessorReceiver : «implements»
-SlideViewerFrame ..|> NavigationReceiver : «implements»
-NextSlideCommand ..|> Command
-PrevSlideCommand ..|> Command
-ExitCommand ..|> Command
-GotoCommand ..|> Command : «implements»
-OpenCommand ..|> Command : «implements»
-NewCommand ..|> Command
-SaveCommand ..|> Command : «implements»
-AboutCommand ..|> Command
-KeyController "1" o-- "1" Command
-KeyController "1" o-- "1" Command
-KeyController "1" o-- "1" Command
-MenuController ..> Command : «invokes»
-NextSlideCommand "1" --> "1" PresentationReceiver
-PrevSlideCommand "1" --> "1" PresentationReceiver
-ExitCommand "1" --> "1" PresentationReceiver
-GotoCommand "1" --> "1" PresentationReceiver
-OpenCommand "1" --> "1" AccessorReceiver
-OpenCommand "1" --> "1" PresentationReceiver
-OpenCommand "1" --> "1" NavigationReceiver
-NewCommand "1" --> "1" PresentationReceiver
-NewCommand "1" --> "1" NavigationReceiver
-SaveCommand "1" --> "1" AccessorReceiver
-SaveCommand "1" --> "1" NavigationReceiver
-KeyController "1" --> "1" PresentationReceiver
-MenuController "1" --> "1" PresentationReceiver
-OpenCommand ..> XMLAccessor : «uses»
-SaveCommand ..> XMLAccessor : «uses»
-AboutCommand "1" --> "1" Frame
-AboutCommand ..> AboutBox : «uses»
-JFrame <|-- SlideViewerFrame
-JComponent <|-- SlideViewerComponent
-KeyAdapter <|-- KeyController
-MenuBar <|-- MenuController
-Presentation "1" o-- "0..*" Slide
-Slide "1" o-- "0..*" SlideItem
-SlideViewerComponent "1" --> "1" Presentation
-SlideViewerComponent "1" --> "0..1" Slide
-SlideViewerComponent "1" *-- "1" SlideRenderer
-SlideRenderer ..> Presentation : «uses»
-SlideRenderer ..> Slide : «uses»
-SlideViewerFrame ..> SlideViewerComponent : «creates»
-SlideViewerFrame ..> KeyController : «creates»
-SlideViewerFrame ..> MenuController : «creates»
-Slide ..> Style : «uses»
-Slide ..> TextItem : «creates»
-TextItem ..> Style : «uses»
-BitmapItem ..> Style : «uses»
-JabberPoint ..> Presentation : «creates»
-JabberPoint ..> SlideViewerFrame : «creates»
-JabberPoint ..> Accessor : «uses»
-JabberPoint ..> Style : «uses»
-DemoPresentation ..> Slide : «creates»
-DemoPresentation ..> TextItem : «creates»
-DemoPresentation ..> BitmapItem : «creates»
-XMLAccessor ..> Slide : «creates»
-XMLAccessor ..> TextItem : «creates»
-XMLAccessor ..> BitmapItem : «creates»
+
 @enduml
