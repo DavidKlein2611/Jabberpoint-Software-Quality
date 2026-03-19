@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class BitmapItem extends SlideItem
 {
+
     protected static final String FILE = "Bestand ";
     protected static final String NOTFOUND = " niet gevonden";
     private final String imageName;
@@ -29,7 +30,25 @@ public class BitmapItem extends SlideItem
         imageName = name;
         try
         {
-            bufferedImage = ImageIO.read(new File(imageName));
+            File file = new File(imageName);
+            if (file.exists())
+            {
+                bufferedImage = ImageIO.read(file);
+            }
+            else
+            {
+                java.io.InputStream is = getClass()
+                        .getClassLoader()
+                        .getResourceAsStream(imageName);
+                if (is != null)
+                {
+                    bufferedImage = ImageIO.read(is);
+                }
+                else
+                {
+                    System.err.println(FILE + imageName + NOTFOUND);
+                }
+            }
         }
         catch (IOException e)
         {
@@ -50,21 +69,50 @@ public class BitmapItem extends SlideItem
     }
 
     // geef de bounding box van de afbeelding
-    public Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style myStyle)
+    public Rectangle getBoundingBox(
+            Graphics g,
+            ImageObserver observer,
+            float scale,
+            Style myStyle
+    )
     {
-        return new Rectangle((int) (myStyle.indent * scale), 0,
+        if (bufferedImage == null)
+        {
+            return new Rectangle((int) (myStyle.indent * scale), 0, 0, 0);
+        }
+        return new Rectangle(
+                (int) (myStyle.indent * scale),
+                0,
                 (int) (bufferedImage.getWidth(observer) * scale),
                 ((int) (myStyle.leading * scale)) +
-                        (int) (bufferedImage.getHeight(observer) * scale));
+                        (int) (bufferedImage.getHeight(observer) * scale)
+        );
     }
 
     // teken de afbeelding
-    public void draw(int x, int y, float scale, Graphics g, Style myStyle, ImageObserver observer)
+    public void draw(
+            int x,
+            int y,
+            float scale,
+            Graphics g,
+            Style myStyle,
+            ImageObserver observer
+    )
     {
+        if (bufferedImage == null)
+        {
+            return;
+        }
         int width = x + (int) (myStyle.indent * scale);
         int height = y + (int) (myStyle.leading * scale);
-        g.drawImage(bufferedImage, width, height, (int) (bufferedImage.getWidth(observer) * scale),
-                (int) (bufferedImage.getHeight(observer) * scale), observer);
+        g.drawImage(
+                bufferedImage,
+                width,
+                height,
+                (int) (bufferedImage.getWidth(observer) * scale),
+                (int) (bufferedImage.getHeight(observer) * scale),
+                observer
+        );
     }
 
     public String toString()
