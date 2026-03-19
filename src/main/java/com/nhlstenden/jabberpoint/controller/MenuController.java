@@ -1,4 +1,7 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.controller;
+
+import com.nhlstenden.jabberpoint.command.*;
+import com.nhlstenden.jabberpoint.model.Presentation;
 
 import java.awt.*;
 

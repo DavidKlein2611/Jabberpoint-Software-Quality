@@ -1,4 +1,6 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.command;
+
+import com.nhlstenden.jabberpoint.model.Presentation;
 
 public class ExitCommand implements Command
 {

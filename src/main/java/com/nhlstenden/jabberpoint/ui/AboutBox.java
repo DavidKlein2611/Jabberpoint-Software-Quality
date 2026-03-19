@@ -1,4 +1,4 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.ui;
 
 import javax.swing.*;
 import java.awt.*;

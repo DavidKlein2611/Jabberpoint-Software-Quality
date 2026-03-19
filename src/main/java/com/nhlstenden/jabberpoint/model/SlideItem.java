@@ -1,4 +1,4 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.model;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;

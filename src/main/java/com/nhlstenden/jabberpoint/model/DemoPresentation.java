@@ -1,4 +1,6 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.model;
+
+import com.nhlstenden.jabberpoint.accessor.Accessor;
 
 /**
  * Een ingebouwde demo-presentatie
@@ -7,7 +9,7 @@ package com.nhlstenden.jabberpoint;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-class DemoPresentation extends Accessor
+public class DemoPresentation extends Accessor
 {
 
     public void loadFile(Presentation presentation, String unusedFilename)

@@ -1,4 +1,8 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.ui;
+
+import com.nhlstenden.jabberpoint.controller.KeyController;
+import com.nhlstenden.jabberpoint.controller.MenuController;
+import com.nhlstenden.jabberpoint.model.Presentation;
 
 import javax.swing.*;
 import java.awt.*;

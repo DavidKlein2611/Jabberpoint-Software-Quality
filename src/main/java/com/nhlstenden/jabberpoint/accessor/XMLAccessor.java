@@ -1,5 +1,6 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.accessor;
 
+import com.nhlstenden.jabberpoint.model.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;

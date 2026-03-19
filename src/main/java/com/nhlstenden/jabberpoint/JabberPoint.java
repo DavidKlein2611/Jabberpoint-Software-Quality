@@ -1,5 +1,10 @@
 package com.nhlstenden.jabberpoint;
 
+import com.nhlstenden.jabberpoint.accessor.Accessor;
+import com.nhlstenden.jabberpoint.model.Presentation;
+import com.nhlstenden.jabberpoint.model.Style;
+import com.nhlstenden.jabberpoint.ui.SlideViewerFrame;
+
 import javax.swing.*;
 import java.io.IOException;
 

@@ -1,4 +1,8 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.ui;
+
+import com.nhlstenden.jabberpoint.model.Observer;
+import com.nhlstenden.jabberpoint.model.Presentation;
+import com.nhlstenden.jabberpoint.model.Slide;
 
 import javax.swing.*;
 import java.awt.*;
