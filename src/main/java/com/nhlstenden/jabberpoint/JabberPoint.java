@@ -35,13 +35,14 @@ public class JabberPoint
     {
         Style.createStyles();
         Presentation presentation = new Presentation();
-        new SlideViewerFrame(JABVERSION, presentation);
+        boolean demoMode = (argv.length == 0 || argv[0].isEmpty());
+        new SlideViewerFrame(JABVERSION, presentation, demoMode);
         try
         {
             String filename = argv.length == 0 ? "" : argv[0];
             PresentationLoader loader;
 
-            if (filename == null || filename.isEmpty())
+            if (demoMode)
             {
                 loader = new DemoPresentation();
             }
@@ -50,8 +51,11 @@ public class JabberPoint
                 loader = new XMLAccessor();
             }
 
-            loader.loadFile(presentation, filename);
-            presentation.setSlideNumber(0);
+            if (!demoMode) // alleen laden als er een echt bestand is
+            {
+                loader.loadFile(presentation, filename);
+                presentation.setSlideNumber(0);
+            }
         }
         catch (IOException ex)
         {

@@ -24,7 +24,7 @@ public class SlideViewerFrame extends JFrame
     private static final long serialVersionUID = 3227L;
     private static final String JABTITLE = "Jabberpoint 1.6 - OU";
 
-    public SlideViewerFrame(String title, Presentation presentation)
+    public SlideViewerFrame(String title, Presentation presentation, boolean demoMode)
     {
         super(title);
         SlideViewerComponent slideViewerComponent = new SlideViewerComponent(
@@ -32,13 +32,14 @@ public class SlideViewerFrame extends JFrame
                 this
         );
         presentation.addObserver(slideViewerComponent);
-        setupWindow(slideViewerComponent, presentation);
+        setupWindow(slideViewerComponent, presentation, demoMode);
     }
 
     // De GUI opzetten
     public void setupWindow(
             SlideViewerComponent slideViewerComponent,
-            Presentation presentation
+            Presentation presentation,
+            boolean demoMode
     )
     {
         setTitle(JABTITLE);
@@ -53,7 +54,7 @@ public class SlideViewerFrame extends JFrame
         );
         getContentPane().add(slideViewerComponent);
         addKeyListener(new KeyController(presentation));
-        setMenuBar(new MenuController(this, presentation));
+        setMenuBar(new MenuController(this, presentation, demoMode));
         setSize(new Dimension(WIDTH, HEIGHT));
         setVisible(true);
     }

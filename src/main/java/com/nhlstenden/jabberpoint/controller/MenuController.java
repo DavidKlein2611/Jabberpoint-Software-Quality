@@ -1,6 +1,8 @@
 package com.nhlstenden.jabberpoint.controller;
 
+import com.nhlstenden.jabberpoint.accessor.*;
 import com.nhlstenden.jabberpoint.command.*;
+import com.nhlstenden.jabberpoint.model.DemoPresentation;
 import com.nhlstenden.jabberpoint.model.Presentation;
 
 import java.awt.*;
@@ -33,19 +35,35 @@ public class MenuController extends MenuBar
     public static final String SAVEERR = "Save Error";
     private static final long serialVersionUID = 227L;
 
-    public MenuController(Frame frame, Presentation pres)
+    public MenuController(Frame frame, Presentation pres, boolean demoMode)
     {
         MenuItem menuItem;
 
-        Command openCommand = new OpenCommand(pres, frame);
+        // --- Dependency Injection van loader en saver ---
+        PresentationLoader loader;
+        PresentationSaver saver;
+
+        if (demoMode)
+        {
+            loader = new DemoPresentation();
+            saver = null; // demo kan niet saven
+        }
+        else
+        {
+            loader = new XMLAccessor();
+            saver = new XMLAccessor();
+        }
+
+        Command openCommand = new OpenCommand(pres, frame, loader);
         Command newCommand = new NewCommand(pres, frame);
-        Command saveCommand = new SaveCommand(pres, frame);
+        Command saveCommand = saver != null ? new SaveCommand(pres, frame, saver) : null;
         Command exitCommand = new ExitCommand(pres);
         Command nextSlideCommand = new NextSlideCommand(pres);
         Command prevSlideCommand = new PrevSlideCommand(pres);
         Command gotoCommand = new GotoCommand(pres);
         Command aboutCommand = new AboutCommand(frame);
 
+        // --- Bestand menu ---
         Menu fileMenu = new Menu(FILE);
 
         fileMenu.add(menuItem = mkMenuItem(OPEN));
@@ -54,8 +72,11 @@ public class MenuController extends MenuBar
         fileMenu.add(menuItem = mkMenuItem(NEW));
         menuItem.addActionListener(e -> newCommand.execute());
 
-        fileMenu.add(menuItem = mkMenuItem(SAVE));
-        menuItem.addActionListener(e -> saveCommand.execute());
+        if (saveCommand != null)
+        {
+            fileMenu.add(menuItem = mkMenuItem(SAVE));
+            menuItem.addActionListener(e -> saveCommand.execute());
+        }
 
         fileMenu.addSeparator();
 
@@ -64,6 +85,7 @@ public class MenuController extends MenuBar
 
         add(fileMenu);
 
+        // --- View menu ---
         Menu viewMenu = new Menu(VIEW);
 
         viewMenu.add(menuItem = mkMenuItem(NEXT));
@@ -77,6 +99,7 @@ public class MenuController extends MenuBar
 
         add(viewMenu);
 
+        // --- Help menu ---
         Menu helpMenu = new Menu(HELP);
         helpMenu.add(menuItem = mkMenuItem(ABOUT));
         menuItem.addActionListener(e -> aboutCommand.execute());
