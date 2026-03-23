@@ -1,6 +1,6 @@
 package com.nhlstenden.jabberpoint.model;
 
-import com.nhlstenden.jabberpoint.accessor.Accessor;
+import com.nhlstenden.jabberpoint.accessor.PresentationLoader;
 
 /**
  * Een ingebouwde demo-presentatie
@@ -9,7 +9,7 @@ import com.nhlstenden.jabberpoint.accessor.Accessor;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class DemoPresentation extends Accessor
+public class DemoPresentation implements PresentationLoader
 {
 
     public void loadFile(Presentation presentation, String unusedFilename)
@@ -49,10 +49,5 @@ public class DemoPresentation extends Accessor
         slide.append(1, "Dit is het einde van de presentatie.");
         slide.append(new BitmapItem(1, "JabberPoint.jpg"));
         presentation.append(slide);
-    }
-
-    public void saveFile(Presentation presentation, String unusedFilename)
-    {
-        throw new IllegalStateException("Save As->Demo! aangeroepen");
     }
 }

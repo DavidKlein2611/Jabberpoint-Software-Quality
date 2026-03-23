@@ -1,6 +1,6 @@
 package com.nhlstenden.jabberpoint.command;
 
-import com.nhlstenden.jabberpoint.accessor.Accessor;
+import com.nhlstenden.jabberpoint.accessor.PresentationLoader;
 import com.nhlstenden.jabberpoint.accessor.XMLAccessor;
 import com.nhlstenden.jabberpoint.controller.MenuController;
 import com.nhlstenden.jabberpoint.model.Presentation;
@@ -24,7 +24,7 @@ public class OpenCommand implements Command
     public void execute()
     {
         presentation.clear();
-        Accessor xmlAccessor = new XMLAccessor();
+        PresentationLoader xmlAccessor = new XMLAccessor();
         try
         {
             xmlAccessor.loadFile(presentation, MenuController.TESTFILE);

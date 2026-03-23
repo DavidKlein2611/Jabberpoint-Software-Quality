@@ -3,6 +3,7 @@ package com.nhlstenden.jabberpoint.ui;
 import com.nhlstenden.jabberpoint.model.Observer;
 import com.nhlstenden.jabberpoint.model.Presentation;
 import com.nhlstenden.jabberpoint.model.Slide;
+import com.nhlstenden.jabberpoint.model.SlideRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +26,9 @@ public class SlideViewerComponent extends JComponent implements Observer
     private static final int FONTHEIGHT = 10;
     private static final int XPOS = 1100;
     private static final int YPOS = 20;
+
+    private final SlideRenderer renderer = new SlideRenderer();
+
     private Slide slide;
     private Font labelFont = null;
     private Presentation presentation = null;
@@ -82,6 +86,6 @@ public class SlideViewerComponent extends JComponent implements Observer
                 getWidth(),
                 (getHeight() - YPOS)
         );
-        slide.draw(g, area, this);
+        renderer.draw(slide, g, area, this);
     }
 }

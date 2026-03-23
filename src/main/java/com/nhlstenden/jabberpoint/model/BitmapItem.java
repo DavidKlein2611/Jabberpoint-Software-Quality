@@ -119,4 +119,12 @@ public class BitmapItem extends SlideItem
     {
         return "BitmapItem[" + getLevel() + "," + imageName + "]";
     }
+
+    @Override
+    public String toXml()
+    {
+        return "<item kind=\"image\" level=\"" + getLevel() + "\">"
+                + getName()
+                + "</item>";
+    }
 }

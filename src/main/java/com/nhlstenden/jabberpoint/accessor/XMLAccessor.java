@@ -23,7 +23,7 @@ import java.util.Vector;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class XMLAccessor extends Accessor
+public class XMLAccessor implements PresentationLoader, PresentationSaver
 {
 
     /**
@@ -151,25 +151,7 @@ public class XMLAccessor extends Accessor
             for (int itemNumber = 0; itemNumber < slideItems.size(); itemNumber++)
             {
                 SlideItem slideItem = slideItems.elementAt(itemNumber);
-                out.print("<item kind=");
-                if (slideItem instanceof TextItem)
-                {
-                    out.print("\"text\" level=\"" + slideItem.getLevel() + "\">");
-                    out.print(((TextItem) slideItem).getText());
-                }
-                else
-                {
-                    if (slideItem instanceof BitmapItem)
-                    {
-                        out.print("\"image\" level=\"" + slideItem.getLevel() + "\">");
-                        out.print(((BitmapItem) slideItem).getName());
-                    }
-                    else
-                    {
-                        System.out.println("Ignoring " + slideItem);
-                    }
-                }
-                out.println("</item>");
+                out.println(slideItem.toXml());
             }
             out.println("</slide>");
         }

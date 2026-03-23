@@ -1,6 +1,8 @@
 package com.nhlstenden.jabberpoint;
 
-import com.nhlstenden.jabberpoint.accessor.Accessor;
+import com.nhlstenden.jabberpoint.accessor.PresentationLoader;
+import com.nhlstenden.jabberpoint.accessor.XMLAccessor;
+import com.nhlstenden.jabberpoint.model.DemoPresentation;
 import com.nhlstenden.jabberpoint.model.Presentation;
 import com.nhlstenden.jabberpoint.model.Style;
 import com.nhlstenden.jabberpoint.ui.SlideViewerFrame;
@@ -37,8 +39,18 @@ public class JabberPoint
         try
         {
             String filename = argv.length == 0 ? "" : argv[0];
-            Accessor accessor = Accessor.getAccessor(filename);
-            accessor.loadFile(presentation, filename);
+            PresentationLoader loader;
+
+            if (filename == null || filename.isEmpty())
+            {
+                loader = new DemoPresentation();
+            }
+            else
+            {
+                loader = new XMLAccessor();
+            }
+
+            loader.loadFile(presentation, filename);
             presentation.setSlideNumber(0);
         }
         catch (IOException ex)

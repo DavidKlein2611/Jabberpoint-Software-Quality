@@ -1,6 +1,6 @@
 package com.nhlstenden.jabberpoint.command;
 
-import com.nhlstenden.jabberpoint.accessor.Accessor;
+import com.nhlstenden.jabberpoint.accessor.PresentationSaver;
 import com.nhlstenden.jabberpoint.accessor.XMLAccessor;
 import com.nhlstenden.jabberpoint.controller.MenuController;
 import com.nhlstenden.jabberpoint.model.Presentation;
@@ -23,7 +23,7 @@ public class SaveCommand implements Command
     @Override
     public void execute()
     {
-        Accessor xmlAccessor = new XMLAccessor();
+        PresentationSaver xmlAccessor = new XMLAccessor();
         try
         {
             xmlAccessor.saveFile(presentation, MenuController.SAVEFILE);
