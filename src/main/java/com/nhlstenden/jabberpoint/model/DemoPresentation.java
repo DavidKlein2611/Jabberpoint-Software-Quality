@@ -1,15 +1,20 @@
 package com.nhlstenden.jabberpoint.model;
 
 import com.nhlstenden.jabberpoint.accessor.Accessor;
+import com.nhlstenden.jabberpoint.accessor.Loadable;
 
 /**
  * Een ingebouwde demo-presentatie
+ * <p>
+ * Applied SOLID Principle: Liskov Substitution Principle (LSP) & Interface Segregation Principle (ISP)
+ * By implementing Loadable instead of an interface that forces both load and save,
+ * DemoPresentation avoids throwing an exception for an unsupported saveFile method, adhering to LSP.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class DemoPresentation extends Accessor
+public class DemoPresentation extends Accessor implements Loadable
 {
 
     public void loadFile(Presentation presentation, String unusedFilename)
@@ -49,10 +54,5 @@ public class DemoPresentation extends Accessor
         slide.append(1, "Dit is het einde van de presentatie.");
         slide.append(new BitmapItem(1, "JabberPoint.jpg"));
         presentation.append(slide);
-    }
-
-    public void saveFile(Presentation presentation, String unusedFilename)
-    {
-        throw new IllegalStateException("Save As->Demo! aangeroepen");
     }
 }

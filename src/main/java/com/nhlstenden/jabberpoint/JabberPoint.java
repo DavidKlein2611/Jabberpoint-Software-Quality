@@ -1,6 +1,7 @@
 package com.nhlstenden.jabberpoint;
 
 import com.nhlstenden.jabberpoint.accessor.Accessor;
+import com.nhlstenden.jabberpoint.accessor.Loadable;
 import com.nhlstenden.jabberpoint.model.Presentation;
 import com.nhlstenden.jabberpoint.model.Style;
 import com.nhlstenden.jabberpoint.ui.SlideViewerFrame;
@@ -37,7 +38,7 @@ public class JabberPoint
         try
         {
             String filename = argv.length == 0 ? "" : argv[0];
-            Accessor accessor = Accessor.getAccessor(filename);
+            Loadable accessor = Accessor.getAccessor(filename);
             accessor.loadFile(presentation, filename);
             presentation.setSlideNumber(0);
         }

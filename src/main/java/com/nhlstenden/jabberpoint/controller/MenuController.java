@@ -7,6 +7,13 @@ import java.awt.*;
 
 /**
  * <p>De controller voor het menu</p>
+ * <p>
+ * Applied SOLID Principles via the Command Pattern:
+ * - Single Responsibility Principle (SRP): MenuController is only responsible for building the UI
+ * and mapping it to Commands, not executing the logic itself.
+ * - Open/Closed Principle (OCP): We can add new Commands to the system without modifying existing
+ * command logic or the core framework.
+ * </p>
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman

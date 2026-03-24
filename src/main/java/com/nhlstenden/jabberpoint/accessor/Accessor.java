@@ -1,9 +1,6 @@
 package com.nhlstenden.jabberpoint.accessor;
 
 import com.nhlstenden.jabberpoint.model.DemoPresentation;
-import com.nhlstenden.jabberpoint.model.Presentation;
-
-import java.io.IOException;
 
 /**
  * <p>Een Accessor maakt het mogelijk om gegevens voor een presentatie
@@ -30,7 +27,7 @@ public abstract class Accessor
      * Otherwise an XMLAccessor is returned.
      * This removes the if/else construction logic from JabberPoint.main().
      */
-    public static Accessor getAccessor(String filename)
+    public static Loadable getAccessor(String filename)
     {
         if (filename == null || filename.isEmpty())
         {
@@ -43,12 +40,8 @@ public abstract class Accessor
      * @deprecated Use getAccessor(String) instead.
      */
     @Deprecated
-    public static Accessor getDemoAccessor()
+    public static Loadable getDemoAccessor()
     {
         return new DemoPresentation();
     }
-
-    public abstract void loadFile(Presentation p, String fn) throws IOException;
-
-    public abstract void saveFile(Presentation p, String fn) throws IOException;
 }

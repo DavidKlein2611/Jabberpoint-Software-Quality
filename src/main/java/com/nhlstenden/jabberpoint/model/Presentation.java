@@ -5,6 +5,13 @@ import java.util.ArrayList;
 /**
  * <p>Presentation houdt de slides in de presentatie bij.</p>
  * <p>Er is slechts een instantie van deze klasse aanwezig.</p>
+ * <p>
+ * Applied SOLID Principles:
+ * - Single Responsibility Principle (SRP): Presentation handles only state management of slides,
+ * delegating UI updates to Observers.
+ * - Dependency Inversion Principle (DIP): Presentation depends on the Observer interface
+ * rather than concrete UI components.
+ * </p>
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman

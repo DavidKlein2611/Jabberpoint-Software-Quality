@@ -1,6 +1,6 @@
 package com.nhlstenden.jabberpoint.command;
 
-import com.nhlstenden.jabberpoint.accessor.Accessor;
+import com.nhlstenden.jabberpoint.accessor.Loadable;
 import com.nhlstenden.jabberpoint.accessor.XMLAccessor;
 import com.nhlstenden.jabberpoint.controller.MenuController;
 import com.nhlstenden.jabberpoint.model.Presentation;
@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class OpenCommand implements Command
 {
+
     private final Presentation presentation;
     private final Frame parent;
 
@@ -24,7 +25,7 @@ public class OpenCommand implements Command
     public void execute()
     {
         presentation.clear();
-        Accessor xmlAccessor = new XMLAccessor();
+        Loadable xmlAccessor = new XMLAccessor();
         try
         {
             xmlAccessor.loadFile(presentation, MenuController.TESTFILE);
@@ -32,8 +33,12 @@ public class OpenCommand implements Command
         }
         catch (IOException exc)
         {
-            JOptionPane.showMessageDialog(parent, MenuController.IOEX + exc,
-                    MenuController.LOADERR, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    parent,
+                    MenuController.IOEX + exc,
+                    MenuController.LOADERR,
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
         parent.repaint();
     }
