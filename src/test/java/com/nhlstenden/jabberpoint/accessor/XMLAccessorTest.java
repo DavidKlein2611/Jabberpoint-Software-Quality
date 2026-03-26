@@ -1,20 +1,22 @@
 package com.nhlstenden.jabberpoint.accessor;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.nhlstenden.jabberpoint.model.BitmapItem;
 import com.nhlstenden.jabberpoint.model.Presentation;
 import com.nhlstenden.jabberpoint.model.Slide;
 import com.nhlstenden.jabberpoint.model.TextItem;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class XMLAccessorTest {
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class XMLAccessorTest
+{
 
     private XMLAccessor xmlAccessor;
     private Presentation presentation;
@@ -22,30 +24,36 @@ public class XMLAccessorTest {
     private String dtdFilePath;
 
     @BeforeEach
-    public void setUp() throws IOException {
+    public void setUp() throws IOException
+    {
         xmlAccessor = new XMLAccessor();
         presentation = new Presentation();
         Path tempFile = Files.createTempFile("testPresentation", ".xml");
         tempFilePath = tempFile.toAbsolutePath().toString();
         File dtdFile = new File(
-            tempFile.getParent().toFile(),
-            "jabberpoint.dtd"
+                tempFile.getParent().toFile(),
+                "jabberpoint.dtd"
         );
-        if (!dtdFile.exists()) {
+        if (!dtdFile.exists())
+        {
             dtdFile.createNewFile();
         }
         dtdFilePath = dtdFile.getAbsolutePath();
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown()
+    {
         File file = new File(tempFilePath);
-        if (file.exists()) {
+        if (file.exists())
+        {
             file.delete();
         }
-        if (dtdFilePath != null) {
+        if (dtdFilePath != null)
+        {
             File dtd = new File(dtdFilePath);
-            if (dtd.exists()) {
+            if (dtd.exists())
+            {
                 dtd.delete();
             }
         }
@@ -53,7 +61,8 @@ public class XMLAccessorTest {
 
     @Test
     public void testSaveFile_validPresentation_fileCreatedAndContainsData()
-        throws IOException {
+            throws IOException
+    {
         presentation.setTitle("Test Title");
         Slide slide = new Slide();
         slide.setTitle("Slide Title");
@@ -71,17 +80,19 @@ public class XMLAccessorTest {
         assertTrue(content.contains("<showtitle>Test Title</showtitle>"));
         assertTrue(content.contains("<title>Slide Title</title>"));
         assertTrue(
-            content.contains("kind=\"text\" level=\"1\">Text Item</item>")
+                content.contains("kind=\"text\" level=\"1\">Text Item</item>")
         );
         assertTrue(
-            content.contains("kind=\"image\" level=\"2\">image.jpg</item>")
+                content.contains("kind=\"image\" level=\"2\">image.jpg</item>")
         );
     }
 
     @Test
-    public void testLoadFile_invalidFile_throwsNoExceptionButFailsSilently() {
+    public void testLoadFile_invalidFile_throwsNoExceptionButFailsSilently()
+    {
         // Asserting that it doesn't throw because the method catches IOException
-        assertDoesNotThrow(() -> {
+        assertDoesNotThrow(() ->
+        {
             xmlAccessor.loadFile(presentation, "nonexistent_file_xyz_123.xml");
         });
         assertEquals(0, presentation.getSize());
@@ -89,7 +100,8 @@ public class XMLAccessorTest {
 
     @Test
     public void testSaveAndLoadFile_roundTrip_presentationMaintainsState()
-        throws IOException {
+            throws IOException
+    {
         // 1. Create and Save
         presentation.setTitle("Round Trip Presentation");
         Slide slide = new Slide();

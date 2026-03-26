@@ -5,28 +5,29 @@ import com.nhlstenden.jabberpoint.model.Slide;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.JFrame;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SlideViewerComponentTest {
+public class SlideViewerComponentTest
+{
 
     private Presentation presentation;
     private JFrame frame;
     private SlideViewerComponent slideViewerComponent;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp()
+    {
         presentation = new Presentation();
         frame = new JFrame();
         slideViewerComponent = new SlideViewerComponent(presentation, frame);
     }
 
     @Test
-    public void testGetPreferredSize_returnsSlideWidthAndHeight() {
+    public void testGetPreferredSize_returnsSlideWidthAndHeight()
+    {
         Dimension preferredSize = slideViewerComponent.getPreferredSize();
         assertNotNull(preferredSize);
         assertEquals(1200, preferredSize.width); // Slide.WIDTH
@@ -34,14 +35,17 @@ public class SlideViewerComponentTest {
     }
 
     @Test
-    public void testUpdate_nullSlide_doesNotThrowException() {
-        assertDoesNotThrow(() -> {
+    public void testUpdate_nullSlide_doesNotThrowException()
+    {
+        assertDoesNotThrow(() ->
+        {
             slideViewerComponent.update(presentation, null);
         });
     }
 
     @Test
-    public void testUpdate_validSlide_updatesFrameTitle() {
+    public void testUpdate_validSlide_updatesFrameTitle()
+    {
         presentation.setTitle("Test Presentation Title");
         Slide slide = new Slide();
         slide.setTitle("Slide Title");
