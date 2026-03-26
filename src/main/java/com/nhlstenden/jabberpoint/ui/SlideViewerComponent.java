@@ -1,4 +1,8 @@
-package com.nhlstenden.jabberpoint;
+package com.nhlstenden.jabberpoint.ui;
+
+import com.nhlstenden.jabberpoint.model.Observer;
+import com.nhlstenden.jabberpoint.model.Presentation;
+import com.nhlstenden.jabberpoint.model.Slide;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +14,7 @@ import java.awt.*;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class SlideViewerComponent extends JComponent
+public class SlideViewerComponent extends JComponent implements Observer
 {
 
     private static final long serialVersionUID = 227L;
@@ -21,9 +25,9 @@ public class SlideViewerComponent extends JComponent
     private static final int FONTHEIGHT = 10;
     private static final int XPOS = 1100;
     private static final int YPOS = 20;
-    private Slide slide; // de huidige slide
-    private Font labelFont = null; // het font voor labels
-    private Presentation presentation = null; // de presentatie
+    private Slide slide;
+    private Font labelFont = null;
+    private Presentation presentation = null;
     private JFrame frame = null;
 
     public SlideViewerComponent(Presentation pres, JFrame frame)
@@ -39,6 +43,7 @@ public class SlideViewerComponent extends JComponent
         return new Dimension(Slide.WIDTH, Slide.HEIGHT);
     }
 
+    @Override
     public void update(Presentation presentation, Slide data)
     {
         if (data == null)
@@ -63,9 +68,20 @@ public class SlideViewerComponent extends JComponent
         }
         g.setFont(labelFont);
         g.setColor(COLOR);
-        g.drawString("Slide " + (1 + presentation.getSlideNumber()) + " of " +
-                presentation.getSize(), XPOS, YPOS);
-        Rectangle area = new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
+        g.drawString(
+                "Slide " +
+                        (1 + presentation.getSlideNumber()) +
+                        " of " +
+                        presentation.getSize(),
+                XPOS,
+                YPOS
+        );
+        Rectangle area = new Rectangle(
+                0,
+                YPOS,
+                getWidth(),
+                (getHeight() - YPOS)
+        );
         slide.draw(g, area, this);
     }
 }
