@@ -4,23 +4,24 @@ import com.nhlstenden.jabberpoint.model.Presentation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Dimension;
+import java.awt.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SlideViewerFrameTest {
+public class SlideViewerFrameTest
+{
 
     private Presentation presentation;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp()
+    {
         presentation = new Presentation();
     }
 
     @Test
-    public void testConstructor_validInputs_framePropertiesSet() {
+    public void testConstructor_validInputs_framePropertiesSet()
+    {
         SlideViewerFrame frame = new SlideViewerFrame("Test Title", presentation);
 
         assertNotNull(frame);

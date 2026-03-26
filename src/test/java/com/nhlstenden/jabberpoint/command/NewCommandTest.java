@@ -5,25 +5,28 @@ import com.nhlstenden.jabberpoint.model.Slide;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NewCommandTest {
+public class NewCommandTest
+{
 
     private Presentation presentation;
     private Frame frame;
     private NewCommand newCommand;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp()
+    {
         presentation = new Presentation();
         frame = new Frame();
         newCommand = new NewCommand(presentation, frame);
     }
 
     @Test
-    public void testExecute_existingPresentation_presentationIsCleared() {
+    public void testExecute_existingPresentation_presentationIsCleared()
+    {
         // Arrange
         presentation.append(new Slide());
         presentation.setSlideNumber(0);

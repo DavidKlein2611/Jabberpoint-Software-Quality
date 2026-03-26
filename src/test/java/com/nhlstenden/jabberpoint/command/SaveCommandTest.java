@@ -7,43 +7,47 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.io.File;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class SaveCommandTest {
+public class SaveCommandTest
+{
 
+    private static final String DUMP_FILE = "dump.xml";
     private Presentation presentation;
     private Frame frame;
     private SaveCommand saveCommand;
-    private static final String DUMP_FILE = "dump.xml";
 
     @BeforeEach
-    public void setUp() {
+    public void setUp()
+    {
         presentation = new Presentation();
         frame = new Frame();
         saveCommand = new SaveCommand(presentation, frame);
     }
 
     @AfterEach
-    public void tearDown() {
+    public void tearDown()
+    {
         // Clean up the dump file if it was created during the test to avoid polluting the workspace
         File file = new File(DUMP_FILE);
-        if (file.exists()) {
+        if (file.exists())
+        {
             file.delete();
         }
     }
 
     @Test
-    public void testConstructor_validArguments_commandCreated() {
+    public void testConstructor_validArguments_commandCreated()
+    {
         assertNotNull(saveCommand);
     }
 
     @Test
-    public void testExecute_validPresentation_fileSavedWithoutExceptions() {
+    public void testExecute_validPresentation_fileSavedWithoutExceptions()
+    {
         // Arrange
         presentation.setTitle("Test Presentation");
         Slide slide = new Slide();
