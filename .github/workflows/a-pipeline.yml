@@ -8,6 +8,8 @@ jobs:
   build-and-deploy-acceptance:
     runs-on: ubuntu-latest
     environment: acceptance
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,5 +31,10 @@ jobs:
           name: Jabberpoint-Executable
           path: target/*.jar
 
-      - name: Deploy to Acceptance
-        run: echo "Hier komt het script om de JAR naar de acceptatie-server te kopiëren/starten."
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Release v1.0.${{ github.run_number }}
+          generate_release_notes: true
+          files: target/*.jar
