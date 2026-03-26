@@ -19,4 +19,4 @@ jobs:
           cache: "maven"
 
       - name: Compile and Test
-        run: mvn clean test
+        run: xvfb-run mvn clean test
