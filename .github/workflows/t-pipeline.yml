@@ -1,0 +1,27 @@
+name: 2. Test (T)
+
+on:
+  workflow_run:
+    workflows: ["1. Ontwikkeling (O)"]
+    types:
+      - completed
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality-checks:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: "maven"
+
+      - name: Code Quality & Dependency Checks
+        run: mvn checkstyle:check org.owasp:dependency-check-maven:check

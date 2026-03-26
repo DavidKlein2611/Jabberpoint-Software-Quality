@@ -1,0 +1,33 @@
+name: 3. Acceptatie (A)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy-acceptance:
+    runs-on: ubuntu-latest
+    environment: acceptance
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: "maven"
+
+      # Bouw het JAR bestand
+      - name: Package Application
+        run: mvn clean package -DskipTests
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Jabberpoint-Executable
+          path: target/*.jar
+
+      - name: Deploy to Acceptance
+        run: echo "Hier komt het script om de JAR naar de acceptatie-server te kopiëren/starten."

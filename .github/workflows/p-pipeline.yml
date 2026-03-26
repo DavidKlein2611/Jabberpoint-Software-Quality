@@ -1,0 +1,20 @@
+name: 4. Productie (P)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Jabberpoint-Executable
+          path: target/
+
+      - name: Deploy to Production
+        run: |
+          echo "Hier komt het script om de goedgekeurde JAR naar de productie-server te deployen."
+          ls -la target/
