@@ -35,13 +35,4 @@ public abstract class Accessor
         }
         return new XMLAccessor();
     }
-
-    /**
-     * @deprecated Use getAccessor(String) instead.
-     */
-    @Deprecated
-    public static Loadable getDemoAccessor()
-    {
-        return new DemoPresentation();
-    }
 }
