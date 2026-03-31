@@ -1,0 +1,77 @@
+name: CD - Acceptatie (A) & Productie (P)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  # ==========================================
+  # === 3. ACCEPTATIE (A)                  ===
+  # ==========================================
+  # Doel: Bouwen van het definitieve release-artifact en
+  # deployen naar de Acceptatie-omgeving voor laatste
+  # validatie (bijv. door de klant of product owner).
+  acceptatie:
+    name: Acceptatie (A)
+    runs-on: ubuntu-latest
+    environment: acceptance
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: "maven"
+
+      # Bouw het JAR bestand (tests zijn in de CI pipeline al gedraaid)
+      - name: Package Application
+        run: mvn clean package -DskipTests
+
+      # Upload het artifact, zodat de 'Productie' job exact dezelfde build gebruikt
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Jabberpoint-Executable
+          path: target/*.jar
+          retention-days: 7
+
+      # Maakt een GitHub release aan voor de administratie/versiebeheer
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Release v1.0.${{ github.run_number }}
+          generate_release_notes: true
+          files: target/*.jar
+
+  # ==========================================
+  # === 4. PRODUCTIE (P)                   ===
+  # ==========================================
+  # Doel: Het goedgekeurde artifact uit de Acceptatie-fase
+  # daadwerkelijk uitrollen naar de live Productie-omgeving.
+  # BELANGRIJK: Ga in GitHub naar Settings > Environments > 'production',
+  # en voeg 'Required reviewers' toe zodat deze job pas start na goedkeuring!
+  productie:
+    name: Productie (P)
+    needs: acceptatie # Deze job start pas als Acceptatie succesvol is afgerond
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      # Pakt het artifact dat is gegenereerd in de (A) job
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Jabberpoint-Executable
+          path: target/
+
+      # Hier voer je je werkelijke deployment stappen uit
+      - name: Deploy to Production
+        run: |
+          echo "Hier komt het script om de goedgekeurde JAR naar de productie-server te deployen."
+          echo "Bestanden klaar voor deployment:"
+          ls -la target/
