@@ -1,11 +1,11 @@
 package com.nhlstenden.jabberpoint.command;
 
 /**
- * Applied SOLID Principles via the Command Pattern:
- * - Single Responsibility Principle (SRP): Each implementation of Command only
- * handles the execution of one specific action.
- * - Open/Closed Principle (OCP): We can add new Commands to the application
- * without modifying existing command-handling code.
+ * Toegepaste SOLID Principles via het Command Pattern:
+ * - Single Responsibility Principle (SRP): Elke implementatie van Command behandelt
+ * alleen de uitvoering van één specifieke actie.
+ * - Open/Closed Principle (OCP): We kunnen nieuwe Commands aan de applicatie
+ * toevoegen zonder bestaande code voor het afhandelen van commando's te wijzigen.
  */
 public interface Command
 {

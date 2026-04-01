@@ -5,10 +5,13 @@ import com.nhlstenden.jabberpoint.model.Slide;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.nhlstenden.jabberpoint.command.Command;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class KeyControllerTest
 {
@@ -16,24 +19,22 @@ public class KeyControllerTest
     private Presentation presentation;
     private KeyController keyController;
     private Component dummyComponent;
+    private boolean exitCommandExecuted = false;
 
     @BeforeEach
-    public void setUp()
+    public void setUp() throws Exception
     {
-        presentation = new Presentation()
-        {
-            @Override
-            public void exit(int n)
-            {
-                // Override exit to prevent terminating the test suite
-                setSlideNumber(-999);
-            }
-        };
+        presentation = new Presentation();
         presentation.append(new Slide());
         presentation.append(new Slide());
         presentation.append(new Slide());
 
         keyController = new KeyController(presentation);
+
+        // Vervang de exitCommand met een test double via reflection, om de JVM shutdown te voorkomen (SRP)
+        Field exitCommandField = KeyController.class.getDeclaredField("exitCommand");
+        exitCommandField.setAccessible(true);
+        exitCommandField.set(keyController, (Command) () -> exitCommandExecuted = true);
 
         dummyComponent = new Component()
         {
@@ -106,14 +107,14 @@ public class KeyControllerTest
     public void testKeyPressed_qChar_exit()
     {
         simulateKeyPress('q', 'q');
-        assertEquals(-999, presentation.getSlideNumber());
+        assertTrue(exitCommandExecuted);
     }
 
     @Test
     public void testKeyPressed_QChar_exit()
     {
         simulateKeyPress('Q', 'Q');
-        assertEquals(-999, presentation.getSlideNumber());
+        assertTrue(exitCommandExecuted);
     }
 
     @Test

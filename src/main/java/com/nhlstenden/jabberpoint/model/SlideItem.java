@@ -11,12 +11,13 @@ import java.awt.image.ImageObserver;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-/**
- * Applied SOLID Principles:
- * - Liskov Substitution Principle (LSP): The Slide class can treat any subclass (TextItem, BitmapItem)
- * uniformly without breaking functionality.
- * - Open/Closed Principle (OCP): New types of SlideItems can be added without modifying the Slide class.
- */
+ /**
+  * Toegepaste SOLID Principles:
+  * - Liskov Substitution Principle (LSP): De Slide-klasse kan elke subklasse
+  * (TextItem, BitmapItem) uniform behandelen zonder de functionaliteit te verbreken.
+  * - Open/Closed Principle (OCP): Nieuwe typen SlideItems kunnen worden toegevoegd
+  * zonder de Slide-klasse aan te passen.
+  */
 public abstract class SlideItem
 {
 

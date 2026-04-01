@@ -11,13 +11,14 @@ import java.awt.event.KeyEvent;
 
 /**
  * <p>This is the KeyController (KeyListener)</p>
- * <p>
- * Applied SOLID Principles via the Command Pattern:
- * - Single Responsibility Principle (SRP): KeyController only handles mapping user input to Commands,
- * rather than executing the presentation logic.
- * - Open/Closed Principle (OCP): New input mappings and commands can be added without modifying the
- * core presentation framework.
- * </p>
+ *
+ * Toegepaste SOLID Principles via het Command Pattern:
+ * - Single Responsibility Principle (SRP): KeyController handelt alleen de koppeling van
+ * gebruikersinvoer naar Commands af, in plaats van het uitvoeren van de presentatielogica.
+ * - Open/Closed Principle (OCP): Nieuwe invoerkoppelingen en commando's kunnen worden
+ * toegevoegd zonder het kernframework van de presentatie aan te passen.
+ *
+ *
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman

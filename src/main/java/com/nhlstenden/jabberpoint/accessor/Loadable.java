@@ -5,10 +5,10 @@ import com.nhlstenden.jabberpoint.model.Presentation;
 import java.io.IOException;
 
 /**
- * Interface for loading presentation data.
- * Applied SOLID Principle: Interface Segregation Principle (ISP)
- * By separating Loadable and Savable, classes like DemoPresentation
- * do not need to implement save logic that they don't support.
+ * Interface voor het laden van presentatiegegevens.
+ * Toegepast SOLID Principle: Interface Segregation Principle (ISP)
+ * Door Loadable en Savable te scheiden, hoeven klassen zoals DemoPresentation
+ * geen opslaglogica te implementeren die ze niet ondersteunen.
  */
 public interface Loadable
 {

@@ -7,6 +7,11 @@ import java.util.Vector;
 /**
  * <p>Een slide. Deze klasse heeft tekenfunctionaliteit.</p>
  *
+ * Om het Open/Closed Principle volledig te respecteren, werkt de
+ * specifieke append(int, String) methode enkel als een convenience methode voor TextItem.
+ * Nieuwe SlideItems kunnen probleemloos worden toegevoegd via append(SlideItem),
+ * waardoor de klasse Slide niet gewijzigd hoeft te worden voor nieuwe item-typen.
+ *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */

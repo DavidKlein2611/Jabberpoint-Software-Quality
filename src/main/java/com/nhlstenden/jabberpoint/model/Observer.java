@@ -1,11 +1,11 @@
 package com.nhlstenden.jabberpoint.model;
 
 /**
- * Applied SOLID Principles via the Observer Pattern:
- * - Dependency Inversion Principle (DIP): The Subject (Presentation)
- * depends on this abstraction (Observer), not on concrete UI components.
- * - Open/Closed Principle (OCP): We can add new Observers (views)
- * without changing the Presentation class.
+ * Toegepaste SOLID Principles via het Observer Pattern:
+ * - Dependency Inversion Principle (DIP): Het Subject (Presentation) is
+ * afhankelijk van deze abstractie (Observer), niet van concrete UI-componenten.
+ * - Open/Closed Principle (OCP): We kunnen nieuwe Observers (views)
+ * toevoegen zonder de Presentation-klasse te wijzigen.
  */
 public interface Observer
 {

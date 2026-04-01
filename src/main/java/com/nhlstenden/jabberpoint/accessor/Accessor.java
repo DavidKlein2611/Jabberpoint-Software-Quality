@@ -22,10 +22,10 @@ public abstract class Accessor
     }
 
     /**
-     * Factory Method: returns the appropriate Accessor for the given filename.
-     * If filename is empty or null, a DemoPresentation accessor is returned.
-     * Otherwise an XMLAccessor is returned.
-     * This removes the if/else construction logic from JabberPoint.main().
+     * Factory Method: geeft de juiste Accessor terug voor de opgegeven bestandsnaam.
+     * Als de bestandsnaam leeg of null is, wordt er een DemoPresentation accessor teruggegeven.
+     * Anders wordt er een XMLAccessor teruggegeven.
+     * Dit verwijdert de if/else-constructielogica uit JabberPoint.main().
      */
     public static Loadable getAccessor(String filename)
     {

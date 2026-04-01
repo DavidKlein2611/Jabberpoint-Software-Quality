@@ -5,10 +5,11 @@ import com.nhlstenden.jabberpoint.accessor.Loadable;
 
 /**
  * Een ingebouwde demo-presentatie
- * <p>
- * Applied SOLID Principle: Liskov Substitution Principle (LSP) & Interface Segregation Principle (ISP)
- * By implementing Loadable instead of an interface that forces both load and save,
- * DemoPresentation avoids throwing an exception for an unsupported saveFile method, adhering to LSP.
+ *
+ * Toegepast SOLID Principle: Liskov Substitution Principle (LSP) & Interface Segregation Principle (ISP)
+ * Door Loadable te implementeren in plaats van een interface die zowel load als save afdwingt,
+ * voorkomt DemoPresentation het gooien van een exception voor een niet-ondersteunde saveFile-methode,
+ * wat voldoet aan LSP.
  *
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman

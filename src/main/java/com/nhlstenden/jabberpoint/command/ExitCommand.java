@@ -14,6 +14,15 @@ public class ExitCommand implements Command
     @Override
     public void execute()
     {
-        presentation.exit(0);
+        /**
+         * System.exit() direct wordt aangeroepen vanuit het ExitCommand, omdat
+         * de levenscyclus van de applicatie niet de verantwoordelijkheid van de Presentation is (SRP).
+         */
+        systemExit(0);
+    }
+
+    protected void systemExit(int status)
+    {
+        System.exit(status);
     }
 }

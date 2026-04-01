@@ -11,29 +11,27 @@ public class ExitCommandTest
 
     private Presentation presentation;
     private ExitCommand command;
+    private int exitStatus = -1;
 
     @BeforeEach
     public void setUp()
     {
-        presentation = new Presentation()
+        presentation = new Presentation();
+        command = new ExitCommand(presentation)
         {
             @Override
-            public void exit(int n)
+            protected void systemExit(int status)
             {
-                // Prevent JVM exit and mark that it was called
-                setSlideNumber(-999);
+                exitStatus = status;
             }
         };
-        command = new ExitCommand(presentation);
     }
 
     @Test
-    public void testExecute_called_presentationExitInvoked()
+    public void testExecute_called_systemExitInvoked()
     {
-        presentation.setSlideNumber(0);
-
         command.execute();
 
-        assertEquals(-999, presentation.getSlideNumber());
+        assertEquals(0, exitStatus);
     }
 }
