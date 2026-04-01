@@ -54,8 +54,6 @@ jobs:
   # ==========================================
   # Doel: Het goedgekeurde artifact uit de Acceptatie-fase
   # daadwerkelijk uitrollen naar de live Productie-omgeving.
-  # BELANGRIJK: Ga in GitHub naar Settings > Environments > 'production',
-  # en voeg 'Required reviewers' toe zodat deze job pas start na goedkeuring!
   productie:
     name: Productie (P)
     needs: acceptatie # Deze job start pas als Acceptatie succesvol is afgerond
